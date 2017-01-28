@@ -1,21 +1,21 @@
 import { normalize } from 'normalizr';
 import { camelizeKeys } from 'humps';
 export const CALL_API = Symbol('Call API');
-const API_ROOT = "http://fixer.io";
+const API_ROOT = "https://api.fixer.io";
 
-function jsonSuccessResponse(json, schema) {
+function jsonSuccessResponse(json, schema, id) {
 
   if (!schema) {
     console.log("No schema selected");
     return {};
   }
   const camelizedJson = camelizeKeys(json);
-
+  camelizedJson.id = id;
   return Object.assign({},
     normalize(camelizedJson, schema));
 
 }
-function callApi(endpoint, schema, ext_req) {
+function callApi(endpoint, schema, ext_req, id) {
 
   const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
     var fetch_detail = {
@@ -41,7 +41,7 @@ function callApi(endpoint, schema, ext_req) {
           return Promise.reject(json);
         }
 
-        return jsonSuccessResponse(json, schema);
+        return jsonSuccessResponse(json, schema, id);
       });
 }
 
@@ -52,7 +52,7 @@ export default store => next => action => {
     return next(action);
   }
 
-  let { endpoint, ext_req } = callAPI;
+  let { endpoint, ext_req, id } = callAPI;
 
   const { schema, types, schemaless } = callAPI;
 
@@ -82,7 +82,7 @@ export default store => next => action => {
   const [ requestType, successType, failureType ] = types;
   next(actionWith({ type: requestType}));
 
-  return callApi(endpoint, schema, ext_req).then(
+  return callApi(endpoint, schema, ext_req, id).then(
     response => next(actionWith({
       response,
       type: successType,

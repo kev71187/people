@@ -1,6 +1,6 @@
 import _ from 'lodash';
 const defaultState = {
-
+  currencies: {}
 };
 
 export default function entities(state = defaultState, action) {

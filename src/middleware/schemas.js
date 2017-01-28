@@ -1,9 +1,9 @@
 import { normalize, schema } from 'normalizr';
 
-const userSchema = new schema.Entity('users', {
+const currencySchema = new schema.Entity('currencies', {
   idAttribute: 'id'
 });
 
 export const Schemas = {
-  USER: userSchema
+  CURRENCY: currencySchema
 };

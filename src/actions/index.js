@@ -2,19 +2,23 @@ import { CALL_API } from '../middleware/api';
 import {Schemas} from "../middleware/schemas";
 
 
-const createTodoCatAction = () => {
+const getCurrencyAction = (to, from, day) => {
+
+  var formatDate = day.format("YYYY-MM-DD");
   return {
     [CALL_API]: {
-      types: [ "GET_TODO_CATS_REQUEST", "GET_TODO_CATS_SUCCESS", "GET_TODO_CATS_FAILURE" ],
-      endpoint: "/todo_categories?shared=0",
+      types: [ "GET_CURRENCY_REQUEST", "GET_CURRENCY_SUCCESS", "GET_CURRENCY_FAILURE" ],
+      endpoint: "/"+formatDate+"?base="+to+"&symbols="+from,
       ext_req: {method: "get"},
-      schema: Schemas.USER
+      id: formatDate + "-"+ to,
+      schema: Schemas.CURRENCY
     }
+
   };
 };
 
-export function createTodoCat() {
+export function getCurrency(to, from, day) {
   return (dispatch) => {
-    return dispatch(createTodoCatAction());
+    return dispatch(getCurrencyAction(to, from, day));
   };
 }
