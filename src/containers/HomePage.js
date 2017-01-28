@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import CurrencyDropdown from "../components/CurrencyDropdown";
 import {FormGroup} from 'react-bootstrap';
-import Chart from "../components/Chart";
 import CurrenciesComparison from "../components/CurrenciesComparison";
 import moment from "moment";
 import {getCurrency} from "../actions/index";
@@ -11,10 +10,9 @@ require('../stylesheets/homepage.scss');
 class HomePage extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      to: "USD",
-      from: "EUR",
+      to: props.to ? props.to : "USD",
+      from: props.from ? props.from : "EUR",
       days: this.days(20)
     };
 
@@ -36,6 +34,9 @@ class HomePage extends Component {
   getData(to, from) {
     this.state.days.map((day) => this.props.getCurrency(to, from, day));
   }
+  setLocation(to, from) {
+    window.location.hash = '#' + to + "/" + from;
+  }
   lastDateFormatted() {
     var format = "MMM DD YYYY";
     return this.state.days[0].format(format);
@@ -43,17 +44,17 @@ class HomePage extends Component {
   toOnChange(event) {
     var to = event.target.value;
     this.setState({to});
+    this.setLocation(to, this.state.from);
     this.getData(to, this.state.from);
   }
   fromOnChange(event) {
     var from = event.target.value;
     this.setState({from});
+    this.setLocation(this.state.to, from);
     this.getData(this.state.to, from);
   }
 
   render() {
-    var self = this;
-
     return (
       <div className="row">
         <h1 className="col-xs-12 text-center">
@@ -77,9 +78,17 @@ class HomePage extends Component {
 
 
 function mapStateToProps(state, props) {
-  console.log(state);
-  return {
+  var params;
+  var hash = props.location.hash;
+  if (hash) {
+    params = hash.replace("#", "").split("/");
+    return {
+      to: params[0],
+      from: params[1]
+    }
   }
+
+  return {}
 }
 export default connect(mapStateToProps, {
   getCurrency

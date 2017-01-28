@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, Nav } from 'react-bootstrap';
-import {  ControlLabel, FormControl } from 'react-bootstrap';
+import {  FormControl } from 'react-bootstrap';
 import CURRENCIES from "../constants/currencies";
 export default class CurrencyDropdown extends Component {
   constructor() {

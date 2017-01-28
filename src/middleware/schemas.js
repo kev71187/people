@@ -1,4 +1,4 @@
-import { normalize, schema } from 'normalizr';
+import {  schema } from 'normalizr';
 
 const currencySchema = new schema.Entity('currencies', {
   idAttribute: 'id'

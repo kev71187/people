@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Chart from "../components/Chart";
-import moment from "moment";
 import { connect } from 'react-redux';
 class CurrenciesComparison extends Component {
   constructor() {
@@ -27,7 +26,6 @@ class CurrenciesComparison extends Component {
   }
 }
 function mapStateToProps(state, props) {
-  console.log(state)
   var data = props.days.map(function(day) {
     var key = day.format("YYYY-MM-DD")+ "-" + props.to
 
