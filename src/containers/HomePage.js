@@ -70,7 +70,7 @@ class HomePage extends Component {
     return (
       <div className="homepage">
         { this.state.loading &&
-          <img className="loadable loading-img" src={loading}/>
+          <img alt="loading" className="loadable loading-img" src={loading}/>
         }
 
         <div className={"row loadable " + (this.state.loading === true ? "loading" : "")}>
