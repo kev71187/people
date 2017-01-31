@@ -20,8 +20,9 @@ class CurrenciesComparison extends Component {
     return day.format(format);
   }
   render() {
+
     return (
-      <Chart data={this.props.data} labels={this.formatDaysShort()}/>
+      <Chart chart={this.props.chart} data={this.props.data} labels={this.formatDaysShort()}/>
     )
   }
 }

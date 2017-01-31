@@ -11,6 +11,7 @@ export default class Root extends Component {
       <Provider store={store}>
         <Router history={browserHistory}>
           <Route path="/" component={App}>
+            <Route path="/charts/:chart" component={HomePage} />
             <IndexRoute path=""
             component={HomePage} />
           </Route>

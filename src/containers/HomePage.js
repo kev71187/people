@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import CurrencyDropdown from "../components/CurrencyDropdown";
-import {FormGroup} from 'react-bootstrap';
+
+import ExchangeForm from '../components/ExchangeForm';
 import CurrenciesComparison from "../components/CurrenciesComparison";
 import moment from "moment";
 import {getCurrency} from "../actions/index";
+import loading from "../images/loading.gif";
 require('../stylesheets/homepage.scss');
 
 class HomePage extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       to: props.to ? props.to : "USD",
       from: props.from ? props.from : "EUR",
-      days: this.days(20)
+      days: this.days(20),
+      loading: true
     };
 
     this.toOnChange = this.toOnChange.bind(this);
@@ -33,6 +36,7 @@ class HomePage extends Component {
   }
   getData(to, from) {
     this.state.days.map((day) => this.props.getCurrency(to, from, day));
+    this.setLoadingTimeout();
   }
   setLocation(to, from) {
     window.location.hash = '#' + to + "/" + from;
@@ -43,33 +47,41 @@ class HomePage extends Component {
   }
   toOnChange(event) {
     var to = event.target.value;
-    this.setState({to});
+    this.setState({to, loading: true});
     this.setLocation(to, this.state.from);
     this.getData(to, this.state.from);
   }
+  setLoadingTimeout() {
+    var self = this;
+    setTimeout(function() {
+      self.setState({loading: false});
+    }, 1000);
+  }
   fromOnChange(event) {
     var from = event.target.value;
-    this.setState({from});
+    this.setState({from, loading: true});
     this.setLocation(this.state.to, from);
     this.getData(this.state.to, from);
   }
 
   render() {
+    var chart = this.props.params.chart ?  this.props.params.chart : "bar";
+
     return (
-      <div className="row">
-        <h1 className="col-xs-12 text-center">
-          {this.state.to}/{this.state.from} Exchange Rates from {this.lastDateFormatted()}
-        </h1>
-        <div className="col-md-4 form-inline text-right pull-right">
-          <FormGroup controlId="currencyControls">
-            <label className="margin-right-5">Choose rates</label>
-            <CurrencyDropdown onChange={this.toOnChange} value={this.state.to}/>
-            <span> / </span>
-            <CurrencyDropdown onChange={this.fromOnChange} value={this.state.from}/>
-          </FormGroup>
-        </div>
-        <div className="col-xs-12">
-          <CurrenciesComparison days={this.state.days} to={this.state.to} from={this.state.from}/>
+      <div className="homepage">
+        { this.state.loading &&
+          <img className="loadable loading-img" src={loading}/>
+        }
+
+        <div className={"row loadable " + (this.state.loading === true ? "loading" : "")}>
+          <h1 className="home-title col-xs-7">
+            Exchange Rates <span className="text-muted">: {this.state.to} / {this.state.from} </span>
+          </h1>
+          <h4 className="todays-date col-xs-5">{this.lastDateFormatted()}</h4>
+          <ExchangeForm toOnChange={this.toOnChange} fromOnChange={this.fromOnChange} to={this.state.to} from={this.state.from}/>
+          <div className="col-xs-12">
+            <CurrenciesComparison chart={chart} days={this.state.days} to={this.state.to} from={this.state.from}/>
+          </div>
         </div>
       </div>
     )
