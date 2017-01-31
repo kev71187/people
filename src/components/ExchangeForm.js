@@ -6,7 +6,7 @@ export default class ExchangeForm extends Component {
     return (
       <div className="col-xs-12 exhange-form form-inline text-left">
 
-        <InputGroup controlId="currencyControls">
+        <InputGroup >
           <label className="margin-right-5">Choose rates</label>
           <CurrencyDropdown onChange={this.props.toOnChange} value={this.props.to}/>
           <span> / </span>

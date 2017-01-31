@@ -12,7 +12,7 @@ export default class CurrencyDropdown extends Component {
   }
   render() {
     return (
-      <select onChange={this.props.onChange} value={this.props.value} componentClass="select">
+      <select onChange={this.props.onChange} value={this.props.value}>
         {CURRENCIES.map((currency)=> this.renderSelectOptions(currency))}
       </select>
     )
