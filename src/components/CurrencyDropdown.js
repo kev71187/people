@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {  FormControl } from 'react-bootstrap';
 import CURRENCIES from "../constants/currencies";
 export default class CurrencyDropdown extends Component {
   constructor() {
@@ -13,9 +12,9 @@ export default class CurrencyDropdown extends Component {
   }
   render() {
     return (
-      <FormControl onChange={this.props.onChange} value={this.props.value} componentClass="select">
+      <select onChange={this.props.onChange} value={this.props.value} componentClass="select">
         {CURRENCIES.map((currency)=> this.renderSelectOptions(currency))}
-      </FormControl>
+      </select>
     )
   }
 }

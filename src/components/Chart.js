@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Bar} from 'react-chartjs-2';
+import {Line, Bar} from 'react-chartjs-2';
 
 const options = {
     gridLines: {display: false},
@@ -43,23 +43,37 @@ export default class Chart extends Component {
   }
 
   data() {
-    return {
+    var data = {
       labels: this.props.labels,
       datasets: [
           {
             label: "",
-            backgroundColor: "steelblue",
             data: this.props.data
           }
       ]
+    };
+    if (this.props.chart === "bar") {
+      data.datasets[0].backgroundColor = "#003fa7";
+    } else {
+      data.datasets[0].backgroundColor = "transparent";
+      data.datasets[0].borderColor = "#d44aab";
     }
+
+    //  "#d44aab";
+    return data;
   }
   render() {
-    return (
-      <Bar data={this.data()}
+    if (this.props.chart === "line") {
+      return (<Line data={this.data()}
         height={250}
         fullWidth
-        options={options} />
-    )
+        options={options} />)
+    } else {
+      return (<Bar data={this.data()}
+        height={250}
+        fullWidth
+        options={options} />)
+    }
+
   }
 }
