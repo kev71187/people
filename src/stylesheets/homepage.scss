@@ -1,21 +1,12 @@
 .margin-right-5 {
   margin-right: 5px;
 }
-@media (max-width: 1090px) {
-  .container {
-    padding-left: 85px;
-  }
+
+.container-fluid {
+  padding-left: 110px;
+  padding-right: 30px;
 }
-@media (max-width: 1090px) {
-  .container {
-    padding-left: 85px;
-  }
-}
-@media (max-width: 1320px)  and (min-width: 1200px) {
-  .container {
-    padding-left: 85px;
-  }
-}
+
 .todays-date {
   margin-top: 20px;
   line-height: 20px;

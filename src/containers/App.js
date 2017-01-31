@@ -8,7 +8,7 @@ class App extends Component {
     return (
       <div className="app">
         <Header params={this.props.params}/>
-        <div className="container">
+        <div className="container-fluid">
           {this.props.children}
         </div>
       </div>
